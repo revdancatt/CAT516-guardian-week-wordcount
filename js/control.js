@@ -82,7 +82,7 @@ control = {
         .success(
             function(json) {
 
-                //try {
+                try {
                     //  Now go thru the results popping the wordcount in the sections
                     for (var i in json.response.results) {
                         if (!(isNaN(parseInt(json.response.results[i].fields.wordcount, 10))) && json.response.results[i].fields.publication in control.sources.dict) {
@@ -109,9 +109,9 @@ control = {
                     } else {
                         $('#progress').slideUp(666);
                     }
-                //} catch(er) {
-                //    alert('Guardian API rate limit hit, try again in a short while (you can run this about 36 times in 24 hours with the "keyless" API rate limits).');
-                //}
+                } catch(er) {
+                    alert('Guardian API rate limit hit, try again in a short while (you can run this about 36 times in 24 hours with the "keyless" API rate limits).');
+                }
 
             }
         );
