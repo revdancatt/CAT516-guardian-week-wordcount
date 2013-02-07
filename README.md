@@ -5,6 +5,8 @@ A code based visualisation of the number of words published in the Guardian over
 
 Still lots to do, this is just the top bit!
 
+Running: http://revdancatt.github.com/CAT516-guardian-week-wordcount
+
 TODO
 ====
 
