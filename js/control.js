@@ -91,7 +91,7 @@ control = {
                 control.updateTable(json.response.total, json.response.pages, page);
                 if (page < json.response.pages) {
                     page++;
-                    control.counter++;
+                    //control.counter++;
 
                     $('#progress .bar').css('width', (page / json.response.pages * 100) + '%')
 
