@@ -80,31 +80,35 @@ control = {
         .success(
             function(json) {
 
-                //  Now go thru the results popping the wordcount in the sections
-                for (var i in json.response.results) {
-                    if (!(isNaN(parseInt(json.response.results[i].fields.wordcount, 10))) && json.response.results[i].fields.publication in control.sources.dict) {
-                        control.sections.dict[json.response.results[i].sectionId].articleCount[json.response.results[i].fields.publication]++;
-                        control.sections.dict[json.response.results[i].sectionId].wordcount[json.response.results[i].fields.publication] += parseInt(json.response.results[i].fields.wordcount, 10);
+                try {
+                    //  Now go thru the results popping the wordcount in the sections
+                    for (var i in json.response.results) {
+                        if (!(isNaN(parseInt(json.response.results[i].fields.wordcount, 10))) && json.response.results[i].fields.publication in control.sources.dict) {
+                            control.sections.dict[json.response.results[i].sectionId].articleCount[json.response.results[i].fields.publication]++;
+                            control.sections.dict[json.response.results[i].sectionId].wordcount[json.response.results[i].fields.publication] += parseInt(json.response.results[i].fields.wordcount, 10);
+                        }
                     }
-                }
 
-                control.updateTable(json.response.total, json.response.pages, page);
-                if (page < json.response.pages) {
-                    page++;
-                    //control.counter++;
+                    control.updateTable(json.response.total, json.response.pages, page);
+                    if (page < json.response.pages) {
+                        page++;
+                        //control.counter++;
 
-                    $('#progress .bar').css('width', (page / json.response.pages * 100) + '%')
+                        $('#progress .bar').css('width', (page / json.response.pages * 100) + '%')
 
-                    if (control.counter > 5) {
-                        $('#progress').slideUp(666);
+                        if (control.counter > 5) {
+                            $('#progress').slideUp(666);
+                        } else {
+                            setTimeout( function() {
+                                control.fetchWordcount(page);
+                            }, 250);
+                        }
+
                     } else {
-                        setTimeout( function() {
-                            control.fetchWordcount(page);
-                        }, 250);
+                        $('#progress').slideUp(666);
                     }
-
-                } else {
-                    $('#progress').slideUp(666);
+                } catch(er) {
+                    alert('Guardian API rate limit hit, try again in a short while (you can run this about 36 times in 24 hours with the "keyless" API rate limits).');
                 }
 
             }
