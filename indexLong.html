@@ -1,0 +1,42 @@
+<html>
+<head>
+    <title>Word count</title>
+    <link href="css/main.css?v=0.1" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="feedback">
+            <h1>Fetching sections published in the Guardian paper for the 7 days</h1>
+            <div class="daterange"></div>
+            <div class="progress"></div>
+        </div>
+
+        <div class="sections">
+            <h1>Sections found in paper:</h1>
+            <ul>
+            </ul>
+        </div>
+
+        <div class="publications">
+            <h1>Publications found in api:</h1>
+            <ul>
+            </ul>
+        </div>
+
+        <div class="wordcounts">
+        </div>
+
+    </div>
+
+    <script src="js/jquery-1.8.1.min.js"></script> 
+    <script src="js/controlLong.js?v=0.4"></script> 
+    <script>
+        $(document).ready(function() {
+            control.init();
+        });
+    </script>
+
+</body>
+</html>

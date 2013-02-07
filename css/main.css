@@ -1,0 +1,249 @@
+body, html {
+    font-size: 1em;
+    background: black;
+    margin: 0;
+    border: 0;
+    font-family: sans-serif;
+
+}
+
+.container {
+    width: 920px;
+    margin-left: auto;
+    margin-right: auto;
+    background: white;
+}
+
+.feedback {
+    background: #CCC;
+    background-image: url(../img/background.png);
+}
+
+.feedback h1 {
+    font-size: 90px !important;
+    line-height: 80px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    text-shadow: 0px 1px 1px #eeeeee;
+    filter: dropshadow(color=#eeeeee, offx=0, offy=1);
+}
+
+.feedback h2,
+.feedback h3 {
+    margin-top: -14px;
+    margin-bottom: 0;
+}
+
+.feedback h2 {
+    font-size: 38px
+}
+
+.feedback h3 {
+    font-size: 28px
+}
+
+
+.feedback .number {
+    font-size: 92px;
+    font-weight: bold;
+}
+
+
+.feedback,
+#total,
+#where {
+    width: 100%;
+    text-align: center;
+    overflow: auto;
+}
+
+#progress {
+    width: 80%;
+    position: relative;
+    height: 4px;
+    border-bottom: 1px solid #eeeeee;
+    border-right: 1px solid #eeeeee;
+    border-top: 1px solid #999999;
+    border-left: 1px solid #999999;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 24px;
+    overflow: hidden;
+}
+
+#progress .bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.75);
+}
+
+#total {
+    font-size: 180px;
+    text-shadow: 0px 1px 1px #eeeeee;
+    filter: dropshadow(color=#eeeeee, offx=0, offy=1);
+}
+
+#online {
+    color: #FFF10B;
+}
+
+
+#print {
+    color: white;
+}
+
+#online,
+#print {
+    width: 50%;
+    float: left;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    text-shadow: 0px -1px 1px #999999;
+    filter: dropshadow(color=#999999, offx=0, offy=-1);
+}
+
+#wherePrint {
+    width: 50%;
+    overflow: auto;
+    float: right;
+    margin-bottom: 24px;
+}
+
+#wherePrint .number {
+    font-size: 64px;
+}
+
+#guardian {
+    color: #0092D1;
+}
+
+#observer {
+    color: #CC006A;
+}
+
+#guardian,
+#observer {
+    width: 50%;
+    float: left;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    text-shadow: 0px 1px 1px #eeeeee;
+    filter: dropshadow(color=#eeeeee, offx=0, offy=1);
+}
+
+#tash1,
+#tashY,
+#tash {
+    width: 487px;
+    height: 137px;
+    padding: 0;
+    position: relative;
+}
+
+#tash1 {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#tashY,
+#tash {
+    position: absolute;
+    top: 0;
+    overflow: hidden;
+    width: 50%;
+}
+
+#tashY {
+    left: 0;
+}
+
+#tash {
+    right: 0;
+}
+
+#tash img {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#tash2,
+#tashC,
+#tashM {
+    width: 246px;
+    height: 76px;
+    padding: 0;
+    position: relative;
+}
+
+#tash2 {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#tashC,
+#tashM {
+    position: absolute;
+    top: 0;
+    overflow: hidden;
+    width: 50%;
+}
+
+#tashC {
+    left: 0;
+}
+
+#tashM {
+    right: 0;
+}
+
+#tashM img {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+
+#topfootnote {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-size: 12px;
+    border-top: 1px solid #FFF10B;
+    clear: both;
+    text-align: left;
+}
+
+
+.C { color: #0092D1; }
+.M { color: #CC006A; }
+.Y { color: #FFF10B; }
+.K { color: #000000; }
+
+table {
+    font-size: 14px;
+}
+
+
+td {
+    vertical-align: top;
+    text-align: right;
+    padding-left: 12px;
+}
+
+tr.header,
+td.sectionName {
+    font-weight: bold;
+    font-size: 16px;
+    text-align: left;
+}
+
+
