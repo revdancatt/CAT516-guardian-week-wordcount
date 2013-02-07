@@ -23,7 +23,6 @@ control = {
             "fashion":{"sectionName":"Fashion"},
             "film":{"sectionName":"Film"},
             "football":{"sectionName":"Football"},
-            "law":{"sectionName":"Law"},
             "lifeandstyle":{"sectionName":"Life and style"},
             "media":{"sectionName":"Media"},
             "money":{"sectionName":"Money"},
@@ -51,6 +50,9 @@ control = {
                 'The Observer': true
             }
     },
+
+    maxWords: 0,
+    minWords: 999999999,
 
 
     init: function() {
@@ -80,7 +82,7 @@ control = {
         .success(
             function(json) {
 
-                try {
+                //try {
                     //  Now go thru the results popping the wordcount in the sections
                     for (var i in json.response.results) {
                         if (!(isNaN(parseInt(json.response.results[i].fields.wordcount, 10))) && json.response.results[i].fields.publication in control.sources.dict) {
@@ -107,9 +109,9 @@ control = {
                     } else {
                         $('#progress').slideUp(666);
                     }
-                } catch(er) {
-                    alert('Guardian API rate limit hit, try again in a short while (you can run this about 36 times in 24 hours with the "keyless" API rate limits).');
-                }
+                //} catch(er) {
+                //    alert('Guardian API rate limit hit, try again in a short while (you can run this about 36 times in 24 hours with the "keyless" API rate limits).');
+                //}
 
             }
         );
@@ -147,10 +149,10 @@ control = {
         );
         */
 
-        $.each(control.sections.keys, function(i, value) {
+        control.maxWords = 0;
+        control.minWords = 999999999;
 
-            wordcountTotal = control.sections.dict[value].wordcount['guardian.co.uk'] + control.sections.dict[value].wordcount['The Guardian'] + control.sections.dict[value].wordcount['The Observer'];
-            articleTotal = control.sections.dict[value].articleCount['guardian.co.uk'] + control.sections.dict[value].articleCount['The Guardian'] + control.sections.dict[value].articleCount['The Observer'];
+        $.each(control.sections.keys, function(i, value) {
 
             /*
             tbl.append(
@@ -195,19 +197,31 @@ control = {
             );
             */
 
+            //  grab the wordcountTotal and articleTotal for this section
+            wordcountTotal = control.sections.dict[value].wordcount['guardian.co.uk'] + control.sections.dict[value].wordcount['The Guardian'] + control.sections.dict[value].wordcount['The Observer'];
+            articleTotal = control.sections.dict[value].articleCount['guardian.co.uk'] + control.sections.dict[value].articleCount['The Guardian'] + control.sections.dict[value].articleCount['The Observer'];
+
+            //  update the totals for the online, guardian and observer values.
             onlineWordcountTotal += parseInt(control.sections.dict[value].wordcount['guardian.co.uk'], 10);
             guardianWordcountTotal += parseInt(control.sections.dict[value].wordcount['The Guardian'], 10);
             observerWordcountTotal += parseInt(control.sections.dict[value].wordcount['The Observer'], 10);
 
+            //  and the same for articles
             onlineArticleTotal += parseInt(control.sections.dict[value].articleCount['guardian.co.uk'], 10);
             guardianArticleTotal += parseInt(control.sections.dict[value].articleCount['The Guardian'], 10);
             observerArticleTotal += parseInt(control.sections.dict[value].articleCount['The Observer'], 10);
 
+            //  record the current max and min wordcounts
+            if (wordcountTotal > control.maxWords) control.maxWords = wordcountTotal;
+            if (wordcountTotal < control.minWords) control.minWords = wordcountTotal;
+
         });
 
+        //  Update the running total for both
         var totalTotalWordcount = onlineWordcountTotal + guardianWordcountTotal + observerWordcountTotal;
         var totalTotalArticles = onlineArticleTotal + guardianArticleTotal + observerArticleTotal;
 
+        //  Display the text at the top
         $('#total').html(utils.prettyNumber(totalTotalWordcount));
         $('#online div').html(utils.prettyNumber(onlineWordcountTotal));
         $('#print div').html(utils.prettyNumber(guardianWordcountTotal + observerWordcountTotal));
@@ -221,6 +235,50 @@ control = {
         $('#tashC').css('width', (guardianWordcountTotal / (guardianWordcountTotal + observerWordcountTotal) * 100) + '%');
         $('#tashM').css('width', 100 - (guardianWordcountTotal / (guardianWordcountTotal + observerWordcountTotal) * 100) + '%');
         
+
+        //  Now go thru each section again drawing the pie charts
+        $.each(control.sections.keys, function(i, value) {
+
+
+            wordcountTotal = control.sections.dict[value].wordcount['guardian.co.uk'] + control.sections.dict[value].wordcount['The Guardian'] + control.sections.dict[value].wordcount['The Observer'];
+
+            //  Work out the radius of the circle, it's going to be a base of 40px + the percentage we are between the lowest and
+            //  highest values
+            var percent = Math.floor((wordcountTotal - control.minWords) / (control.maxWords - control.minWords) * 100);
+            var radius = percent + 36;
+
+            var canvas = $('#' + value + ' canvas')[0];
+            var context = canvas.getContext('2d');
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            // shading
+            context.beginPath();
+            context.arc(canvas.width / 2, canvas.height / 2 + 1, radius, 0, 2 * Math.PI, false);
+            context.fillStyle = '#EEEEEE';
+            context.fill();
+
+            context.beginPath();
+            context.arc(canvas.width / 2, canvas.height / 2, radius, 0, 2 * Math.PI, false);
+            context.fillStyle = '#FFF10B';
+            context.fill();
+
+
+            context.beginPath();
+            context.moveTo(canvas.width/2,canvas.height/2);
+            context.arc(canvas.width / 2, canvas.height / 2, radius, -(Math.PI/2), -(Math.PI/2) + (2 * Math.PI * control.sections.dict[value].wordcount['The Guardian'] / wordcountTotal), false);
+            context.lineTo(canvas.width/2,canvas.height/2);
+            context.fillStyle = '#0092D1';
+            context.fill();
+
+            context.beginPath();
+            context.moveTo(canvas.width/2,canvas.height/2);
+            context.arc(canvas.width / 2, canvas.height / 2, radius, -(Math.PI/2) + (2 * Math.PI * control.sections.dict[value].wordcount['The Guardian'] / wordcountTotal), -(Math.PI/2) + (2 * Math.PI * (control.sections.dict[value].wordcount['The Guardian'] + control.sections.dict[value].wordcount['The Observer']) / wordcountTotal), false);
+            context.lineTo(canvas.width/2,canvas.height/2);
+            context.fillStyle = '#CC006A';
+            context.fill();
+
+        });
+
         /*
         tbl.append(
             $('<tr>')

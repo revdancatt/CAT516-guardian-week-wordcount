@@ -11,12 +11,22 @@ body, html {
     width: 920px;
     margin-left: auto;
     margin-right: auto;
-    background: white;
+    background: #CCC;
+    background-image: url(../img/background.png);
 }
 
 .feedback {
-    background: #CCC;
-    background-image: url(../img/background.png);
+    padding-bottom: 24px;
+    border-bottom: 1px solid #999999;    
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.feedback,
+.viz,
+#topfootnote {
+    overflow: hidden;
 }
 
 .feedback h1 {
@@ -223,10 +233,36 @@ body, html {
 }
 
 
+
 .C { color: #0092D1; }
 .M { color: #CC006A; }
 .Y { color: #FFF10B; }
 .K { color: #000000; }
+
+.viz {
+    padding-top: 24px;
+    border-top: 1px solid #EEEEEE;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.cell {
+    margin-left: 20px;
+    margin-bottom: 40px;
+    margin-top: 8px;
+    width: 280px;
+    float:  left;
+    text-align: center;
+
+}
+
+.cell h1 {
+    margin: 0;
+    font-size: 48px;
+    text-shadow: 0px 1px 1px #eeeeee;
+    filter: dropshadow(color=#eeeeee, offx=0, offy=1);
+}
 
 table {
     font-size: 14px;
