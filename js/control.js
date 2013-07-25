@@ -77,13 +77,18 @@ control = {
 
     fetchWordcount: function(page) {
 
-        var url = 'http://content.guardianapis.com/search?page-size=20&page=' + page + '&section=' + control.sections.keys.join('|') + '&format=json&show-fields=publication%2Cwordcount&date-id=date%2Flast7days&callback=?';
+        var url = 'http://content.guardianapis.com/search?page-size=20&page=' + page + '&section=' + control.sections.keys.join('|') + '&format=json&show-fields=publication%2Cwordcount&show-tags=publication&date-id=date%2Flast7days&callback=?';
         $.getJSON(url)
         .success(
             function(json) {
 
                 //  Now go thru the results popping the wordcount in the sections
                 for (var i in json.response.results) {
+                    //  Find out if we need to toggle the publication to something else
+                    if (json.response.results[i].tags.length > 0) {
+                        json.response.results[i].fields.publication = json.response.results[i].tags[0].webTitle;
+                    }
+
                     if (!(isNaN(parseInt(json.response.results[i].fields.wordcount, 10))) && json.response.results[i].fields.publication in control.sources.dict) {
                         control.sections.dict[json.response.results[i].sectionId].articleCount[json.response.results[i].fields.publication]++;
                         control.sections.dict[json.response.results[i].sectionId].wordcount[json.response.results[i].fields.publication] += parseInt(json.response.results[i].fields.wordcount, 10);
