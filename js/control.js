@@ -43,9 +43,9 @@ control = {
     },
 
     sources: {
-        keys: ['guardian.co.uk', 'The Guardian', 'The Observer'],
+        keys: ['theguardian.com', 'The Guardian', 'The Observer'],
         dict: {
-                'guardian.co.uk': true,
+                'theguardian.com': true,
                 'The Guardian': true,
                 'The Observer': true
             }
@@ -60,12 +60,12 @@ control = {
         //  1st I need to add a bunch of stuff to the sections object
         $.each(control.sections.keys, function(i, key) {
             control.sections.dict[key].articleCount = {
-                'guardian.co.uk': 0,
+                'theguardian.com': 0,
                 'The Guardian': 0,
                 'The Observer': 0
             };
             control.sections.dict[key].wordcount = {
-                'guardian.co.uk': 0,
+                'theguardian.com': 0,
                 'The Guardian': 0,
                 'The Observer': 0
             };
@@ -84,6 +84,7 @@ control = {
 
                 //  Now go thru the results popping the wordcount in the sections
                 for (var i in json.response.results) {
+                    
                     //  Find out if we need to toggle the publication to something else
                     if (json.response.results[i].tags.length > 0) {
                         json.response.results[i].fields.publication = json.response.results[i].tags[0].webTitle;
@@ -143,77 +144,22 @@ control = {
         var guardianArticleTotal = 0;
         var observerArticleTotal = 0;
 
-        /*
-        var tbl = $('<table>')
-        .append(
-            $('<tr>').addClass('header')
-            .append($('<td>').html('Section').addClass('sectionName'))
-            .append($('<td>').html('Online Only'))
-            .append($('<td>').html('The Guardian'))
-            .append($('<td>').html('The Observer'))
-            .append($('<td>').html('Totals'))
-        );
-        */
-
         control.maxWords = 0;
         control.minWords = 999999999;
 
         $.each(control.sections.keys, function(i, value) {
 
-            /*
-            tbl.append(
-                $('<tr>')
-                .append( $('<td>').addClass('sectionName').html(control.sections.dict[value].sectionName) )
-                .append( $('<td>').html(utils.prettyNumber(control.sections.dict[value].wordcount['guardian.co.uk'], 0) + ' words<br />' +
-                    utils.prettyNumber(control.sections.dict[value].articleCount['guardian.co.uk'], 0) + ' articles<br />' +
-                    utils.prettyNumber(control.sections.dict[value].wordcount['guardian.co.uk'] / control.sections.dict[value].articleCount['guardian.co.uk'], 0) + ' w/a<br />' +
-                    utils.prettyNumber(control.sections.dict[value].wordcount['guardian.co.uk'] / wordcountTotal * 100, 2) + '% words<br />' +
-                    utils.prettyNumber(control.sections.dict[value].articleCount['guardian.co.uk'] / articleTotal * 100, 2) + '% articles<br />' +
-                    utils.prettyNumber(control.sections.dict[value].wordcount['guardian.co.uk'] / 7, 0) + ' words/day<br />' +
-                    utils.prettyNumber(control.sections.dict[value].articleCount['guardian.co.uk'] / 7, 2) + ' art/day')
-                    )
-
-                .append( $('<td>').html(utils.prettyNumber(control.sections.dict[value].wordcount['The Guardian'], 0) + ' words<br />' +
-                    utils.prettyNumber(control.sections.dict[value].articleCount['The Guardian'], 0) + ' articles<br />' +
-                    utils.prettyNumber(control.sections.dict[value].wordcount['The Guardian'] / control.sections.dict[value].articleCount['The Guardian'], 0) + ' w/a<br />' +
-                    utils.prettyNumber(control.sections.dict[value].wordcount['The Guardian'] / wordcountTotal * 100, 2) + '% words<br />' +
-                    utils.prettyNumber(control.sections.dict[value].articleCount['The Guardian'] / articleTotal * 100, 2) + '% articles<br />' +
-                    utils.prettyNumber(control.sections.dict[value].wordcount['The Guardian'] / 6, 0) + ' words/day<br />' +
-                    utils.prettyNumber(control.sections.dict[value].articleCount['The Guardian'] / 6, 2) + ' art/day')
-                    )
-
-                .append( $('<td>').html(utils.prettyNumber(control.sections.dict[value].wordcount['The Observer'], 0) + ' words<br />' +
-                    utils.prettyNumber(control.sections.dict[value].articleCount['The Observer'], 0) + ' articles<br />' +
-                    utils.prettyNumber(control.sections.dict[value].wordcount['The Observer'] / control.sections.dict[value].articleCount['The Observer'], 0) + ' w/a<br />' +
-                    utils.prettyNumber(control.sections.dict[value].wordcount['The Observer'] / wordcountTotal * 100, 2) + '% words<br />' +
-                    utils.prettyNumber(control.sections.dict[value].articleCount['The Observer'] / articleTotal * 100, 2) + '% articles<br />' +
-                    utils.prettyNumber(control.sections.dict[value].wordcount['The Observer'] / 1, 0) + ' words/day<br />' +
-                    utils.prettyNumber(control.sections.dict[value].articleCount['The Observer'] / 1, 2) + ' art/day')
-                )
-
-                .append( $('<td>').html(utils.prettyNumber(wordcountTotal, 0) + ' words<br />' +
-                    utils.prettyNumber(articleTotal, 0) +  ' articles<br />' +
-                    utils.prettyNumber(wordcountTotal / articleTotal, 0) + ' w/a<br />' +
-                    '100% words<br />' +
-                    '100% articles<br />' +
-                    utils.prettyNumber(wordcountTotal / 7, 2) + ' words/day<br />' +
-                    utils.prettyNumber(articleTotal / 7, 2) + ' art/day<br />' +
-                    '<br />' )
-                )
-            );
-            */
-
             //  grab the wordcountTotal and articleTotal for this section
-            wordcountTotal = control.sections.dict[value].wordcount['guardian.co.uk'] + control.sections.dict[value].wordcount['The Guardian'] + control.sections.dict[value].wordcount['The Observer'];
-            articleTotal = control.sections.dict[value].articleCount['guardian.co.uk'] + control.sections.dict[value].articleCount['The Guardian'] + control.sections.dict[value].articleCount['The Observer'];
+            wordcountTotal = control.sections.dict[value].wordcount['theguardian.com'] + control.sections.dict[value].wordcount['The Guardian'] + control.sections.dict[value].wordcount['The Observer'];
+            articleTotal = control.sections.dict[value].articleCount['theguardian.com'] + control.sections.dict[value].articleCount['The Guardian'] + control.sections.dict[value].articleCount['The Observer'];
 
             //  update the totals for the online, guardian and observer values.
-            onlineWordcountTotal += parseInt(control.sections.dict[value].wordcount['guardian.co.uk'], 10);
+            onlineWordcountTotal += parseInt(control.sections.dict[value].wordcount['theguardian.com'], 10);
             guardianWordcountTotal += parseInt(control.sections.dict[value].wordcount['The Guardian'], 10);
             observerWordcountTotal += parseInt(control.sections.dict[value].wordcount['The Observer'], 10);
 
             //  and the same for articles
-            onlineArticleTotal += parseInt(control.sections.dict[value].articleCount['guardian.co.uk'], 10);
+            onlineArticleTotal += parseInt(control.sections.dict[value].articleCount['theguardian.com'], 10);
             guardianArticleTotal += parseInt(control.sections.dict[value].articleCount['The Guardian'], 10);
             observerArticleTotal += parseInt(control.sections.dict[value].articleCount['The Observer'], 10);
 
@@ -246,7 +192,7 @@ control = {
         $.each(control.sections.keys, function(i, value) {
 
 
-            wordcountTotal = control.sections.dict[value].wordcount['guardian.co.uk'] + control.sections.dict[value].wordcount['The Guardian'] + control.sections.dict[value].wordcount['The Observer'];
+            wordcountTotal = control.sections.dict[value].wordcount['theguardian.com'] + control.sections.dict[value].wordcount['The Guardian'] + control.sections.dict[value].wordcount['The Observer'];
 
             //  Work out the radius of the circle, it's going to be a base of 40px + the percentage we are between the lowest and
             //  highest values
@@ -284,55 +230,6 @@ control = {
             context.fill();
 
         });
-
-        /*
-        tbl.append(
-            $('<tr>')
-            .append( $('<td>').html('Totals').addClass('sectionName') )
-            .append( $('<td>').html(utils.prettyNumber(onlineWordcountTotal, 0) + ' words<br />' +
-                utils.prettyNumber(onlineArticleTotal, 0) + ' articles<br />' +
-                utils.prettyNumber(onlineWordcountTotal / onlineArticleTotal, 0) + ' w/a<br />' +
-                utils.prettyNumber(onlineWordcountTotal / totalTotalWordcount * 100, 2) + '% words<br />' +
-                utils.prettyNumber(onlineArticleTotal / totalTotalArticles * 100, 2) + '% articles<br />' +
-                utils.prettyNumber(onlineWordcountTotal / 7, 0) + ' words/day<br />' +
-                utils.prettyNumber(onlineArticleTotal / 7, 2) + ' art/day<br />'
-                )
-            )
-
-            .append( $('<td>').html(utils.prettyNumber(guardianWordcountTotal, 0) + ' words<br />' +
-                utils.prettyNumber(guardianArticleTotal, 0) + ' articles<br />' +
-                utils.prettyNumber(guardianWordcountTotal / guardianArticleTotal, 0) + ' w/a<br />' +
-                utils.prettyNumber(guardianWordcountTotal / totalTotalWordcount * 100, 2) + '% words<br />' +
-                utils.prettyNumber(guardianArticleTotal / totalTotalArticles * 100, 2) + '% articles<br />' +
-                utils.prettyNumber(guardianWordcountTotal / 6, 0) + ' words/day<br />' +
-                utils.prettyNumber(guardianArticleTotal / 6, 2) + ' art/day<br />'
-                )
-            )
-
-            .append( $('<td>').html(utils.prettyNumber(observerWordcountTotal, 0) + ' words<br />' +
-                utils.prettyNumber(observerArticleTotal, 0) + ' articles<br />' +
-                utils.prettyNumber(observerWordcountTotal / observerArticleTotal, 0) + ' w/a<br />' +
-                utils.prettyNumber(observerWordcountTotal / totalTotalWordcount * 100, 2) + '% words<br />' +
-                utils.prettyNumber(observerArticleTotal / totalTotalArticles * 100, 2) + '% articles<br />' +
-                utils.prettyNumber(observerWordcountTotal / 1, 0) + ' words/day<br />' +
-                utils.prettyNumber(observerArticleTotal / 1, 2) + ' art/day<br />'
-                )
-            )
-
-            .append( $('<td>').html(utils.prettyNumber(totalTotalWordcount, 0) + ' words<br />' +
-                utils.prettyNumber(totalTotalArticles, 0) + ' articles<br />' +
-                utils.prettyNumber(totalTotalWordcount / totalTotalArticles, 0) + ' w/a<br />' +
-                '100% words<br />' +
-                '100% articles<br />' +
-                utils.prettyNumber(totalTotalWordcount / 7, 0) + ' words/day<br />' +
-                utils.prettyNumber(totalTotalArticles / 7, 2) + ' art/day<br />' +
-                '<br />'
-                )
-            )
-        );
-
-        $('.wordcounts').empty().append(tbl);
-        */
 
     }
 
